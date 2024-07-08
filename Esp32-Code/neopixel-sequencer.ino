@@ -1,6 +1,6 @@
 /********************************************************************************************************
   neopixel_sequencer:
-  Modified by ChatGPT
+  Modified by Esmail-sarhadi
   
   This sketch will show multiple lighting patterns for NeoPixel strip.
   The patterns will switch automatically.
