@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="vqq11CWNVkLVnZvjCeZReKc8-FRmgxek2SOWjr35CbY" />
+    <link rel="shortcut icon" type="image/png" href="android-chrome-512x512.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>neopixel-sequencer</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="neopixel-sequencer" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://esmail-sarhadi.github.io/neopixel-sequencer/" />
+<meta property="og:url" content="https://esmail-sarhadi.github.io/neopixel-sequencer/" />
+<meta property="og:site_name" content="neopixel-sequencer" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="neopixel-sequencer" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","headline":"neopixel-sequencer","name":"neopixel-sequencer","url":"https://esmail-sarhadi.github.io/neopixel-sequencer/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/neopixel-sequencer/assets/css/style.css?v=0bc564dcc43aaf89500c59585a2a24a22699f241">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/neopixel-sequencer/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      
+
+      <h1 id="neopixel-sequencer">neopixel-sequencer</h1>
+<p>This repository contains a project for controlling NeoPixel LED strips using an Arduino. The code cycles through multiple lighting patterns, automatically switching between them. The NeoPixel strip is initialized with specific parameters and various lighting effects are implemented, including rainbow, theater chase, color wipe, scanner, fade in/out, and strobe. The patterns can be easily modified or expanded upon for customized LED displays.</p>
+
+<hr />
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li><strong>Rainbow Pattern:</strong> Displays a moving rainbow across the strip.</li>
+  <li><strong>Theater Chase:</strong> Creates a theater marquee effect.</li>
+  <li><strong>Color Wipe:</strong> Sequentially lights up each LED in a specified color.</li>
+  <li><strong>Scanner:</strong> Simulates a scanning light effect.</li>
+  <li><strong>Fade In/Out:</strong> Smoothly fades LEDs in and out.</li>
+  <li><strong>Strobe:</strong> Rapidly flashes the LEDs.</li>
+</ul>
+
+<h2 id="hardware-required">Hardware Required</h2>
+
+<ul>
+  <li>Arduino (any model)</li>
+  <li>NeoPixel LED strip (WS2812 or similar)</li>
+  <li>Connecting wires</li>
+  <li>Power supply for the LED strip (ensure it matches the power requirements of your NeoPixel strip)</li>
+</ul>
+
+<h2 id="software-required">Software Required</h2>
+
+<ul>
+  <li>Arduino IDE</li>
+  <li>Adafruit NeoPixel library</li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<ol>
+  <li><strong>Install the Adafruit NeoPixel library:</strong>
+    <ul>
+      <li>Open the Arduino IDE.</li>
+      <li>Go to Sketch &gt; Include Library &gt; Manage Libraries…</li>
+      <li>Search for “Adafruit NeoPixel”.</li>
+      <li>Click “Install”.</li>
+    </ul>
+  </li>
+  <li><strong>Clone this repository:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Esmail-sarhadi/neopixel-sequencer.git
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Navigate to the project directory:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>neopixel-sequencer
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Open the project in the Arduino IDE:</strong>
+    <ul>
+      <li>Open the <code class="language-plaintext highlighter-rouge">neopixel_sequencer.ino</code> file from the project directory.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="usage">Usage</h2>
+
+<ol>
+  <li><strong>Connect the NeoPixel strip to your Arduino:</strong>
+    <ul>
+      <li>Data pin is set to pin 15 by default. Modify the <code class="language-plaintext highlighter-rouge">neoPixelPin</code> variable in the code if needed.</li>
+      <li>Adjust the <code class="language-plaintext highlighter-rouge">numPixels</code> variable to match the number of LEDs in your strip.</li>
+    </ul>
+  </li>
+  <li><strong>Upload the sketch to your Arduino:</strong>
+    <ul>
+      <li>Select the correct board and port in the Arduino IDE.</li>
+      <li>Click “Upload”.</li>
+    </ul>
+  </li>
+  <li><strong>Power the NeoPixel strip</strong> with an appropriate power supply.</li>
+</ol>
+
+<h2 id="code">Code</h2>
+
+<p>You can find the complete code in the <code class="language-plaintext highlighter-rouge">neopixel_sequencer.ino</code> file included in this repository.</p>
+
+<h2 id="license">License</h2>
+
+<p>This project is licensed under the MIT License - see the <a href="/neopixel-sequencer/LICENSE">LICENSE</a> file for details.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Feel free to submit issues and pull requests. Contributions are welcome!</p>
+<h2 id="profile">Profile</h2>
+
+<p>Check out my GitHub profile: <a href="https://github.com/Esmail-sarhadi" target="_blank">Esmail Sarhadi</a></p>
+
+<h2 id="project-link">Project Link</h2>
+
+<p>View this project on GitHub: <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer" target="_blank">neopixel-sequencer</a></p>
+
+<h2 id="donation">Donation</h2>
+
+<p>If you find this project helpful, consider making a donation:</p>
+<p><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank">
+     <img src="https://nowpayments.io/images/embeds/donation-button-black.svg" alt="Crypto donation button by NOWPayments">
+</a></p>
+<hr />
+
+<p>You can replace <code class="language-plaintext highlighter-rouge">your-username</code> with your actual GitHub username or the name of your repository.</p>
+
+
+      
+      <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+        This site is open source. <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer/edit/main/README.md">Improve this page</a>.
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
