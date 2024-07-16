@@ -72,4 +72,9 @@ Feel free to submit issues and pull requests. Contributions are welcome!
 
 ---
 
-You can replace `your-username` with your actual GitHub username or the name of your repository.
+<h2 id="donation">Donation</h2>
+
+<p>If you find this project helpful, consider making a donation:</p>
+<p><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank">
+     <img src="https://nowpayments.io/images/embeds/donation-button-black.svg" alt="Crypto donation button by NOWPayments">
+</a></p>
