@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>پروژه توالی NeoPixel توسط اسماعیل سرحدی</title>
+    <link rel="stylesheet" href="/neopixel-sequencer/assets/css/style.css?v=0bc564dcc43aaf89500c59585a2a24a22699f241">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="google-site-verification" content="vqq11CWNVkLVnZvjCeZReKc8-FRmgxek2SOWjr35CbY" />
+    <link rel="shortcut icon" type="image/png" href="android-chrome-512x512.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+      @font-face {
+        font-family: 'Vazirmatn';
+        src: url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+        font-weight: normal;
+        font-style: normal;
+      }
+      body {
+        font-family: 'Vazirmatn', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+        text-align: right;
+      }
+      .container-lg {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+      }
+      h1, h2 {
+        color: #2c3e50;
+      }
+      .author-name {
+        font-size: 1.2em;
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .feature-list {
+        list-style-type: none;
+        padding-right: 0;
+      }
+      .feature-list li {
+        margin-bottom: 10px;
+        padding-right: 25px;
+        position: relative;
+      }
+      .feature-list li:before {
+        content: "\f00c";
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 0;
+        color: #2ecc71;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .btn:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+      }
+      .footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #7f8c8d;
+      }
+      .language-switch {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      .language-switch img {
+        transition: transform 0.3s ease;
+      }
+      .language-switch img:hover {
+        transform: scale(1.1);
+      }
+      .highlight-box {
+        background-color: #f9f9f9;
+        border-right: 5px solid #3498db;
+        padding: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
+      .highlight-box:hover {
+        transform: translateX(-5px);
+      }
+      pre {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        direction: ltr;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+      <div class="language-switch">
+        <span style="font-size: 1.2em; font-weight: bold; margin-left: 10px;">زبان</span>
+        <a href="index.html" style="text-decoration: none; margin: 0 5px;">
+          <img src="https://flagcdn.com/w40/gb.png" width="30" alt="انگلیسی">
+        </a>
+        <a href="index_fa.html" style="text-decoration: none; margin: 0 5px;">
+          <img src="https://flagcdn.com/w40/ir.png" width="30" alt="فارسی">
+        </a>
+      </div>
+
+      <h1 id="neopixel-sequencer" class="animate__animated animate__fadeInDown animate__delay-1s">توالی NeoPixel</h1>
+      
+      <p class="animate__animated animate__fadeIn animate__delay-2s">این مخزن حاوی پروژه‌ای برای کنترل نوارهای LED NeoPixel با استفاده از آردوینو است. کد از چندین الگوی نورپردازی عبور می‌کند و به طور خودکار بین آنها تغییر می‌کند. نوار NeoPixel با پارامترهای خاصی راه‌اندازی می‌شود و جلوه‌های نوری مختلفی از جمله رنگین کمان، تعقیب تئاتر، پاک کردن رنگ، اسکنر، محو شدن و چشمک زدن پیاده‌سازی می‌شوند. الگوها را می‌توان برای نمایش‌های LED سفارشی به راحتی تغییر داد یا گسترش داد.</p>
+
+      <hr>
+
+      <h2 id="features" class="animate__animated animate__fadeInRight animate__delay-3s">✨ ویژگی‌ها</h2>
+
+      <ul class="feature-list animate__animated animate__fadeInUp animate__delay-4s">
+        <li><strong>الگوی رنگین کمان:</strong> یک رنگین کمان متحرک را در سراسر نوار نمایش می‌دهد.</li>
+        <li><strong>تعقیب تئاتر:</strong> یک جلوه تابلوی تئاتر ایجاد می‌کند.</li>
+        <li><strong>پاک کردن رنگ:</strong> هر LED را به ترتیب با رنگ مشخص شده روشن می‌کند.</li>
+        <li><strong>اسکنر:</strong> یک جلوه نور اسکن را شبیه‌سازی می‌کند.</li>
+        <li><strong>محو شدن:</strong> LEDها را به نرمی روشن و خاموش می‌کند.</li>
+        <li><strong>چشمک زدن:</strong> LEDها را به سرعت چشمک می‌زند.</li>
+      </ul>
+
+      <h2 id="hardware-required" class="animate__animated animate__fadeInRight animate__delay-5s">🛠️ سخت‌افزار مورد نیاز</h2>
+
+      <ul class="animate__animated animate__fadeInUp animate__delay-6s">
+        <li>آردوینو (هر مدل)</li>
+        <li>نوار LED NeoPixel (WS2812 یا مشابه)</li>
+        <li>سیم‌های اتصال</li>
+        <li>منبع تغذیه برای نوار LED (اطمینان حاصل کنید که با نیازهای برق نوار NeoPixel شما مطابقت دارد)</li>
+      </ul>
+
+      <h2 id="software-required" class="animate__animated animate__fadeInRight animate__delay-7s">💻 نرم‌افزار مورد نیاز</h2>
+
+      <ul class="animate__animated animate__fadeInUp animate__delay-8s">
+        <li>Arduino IDE</li>
+        <li>کتابخانه Adafruit NeoPixel</li>
+      </ul>
+
+      <h2 id="installation" class="animate__animated animate__fadeInRight animate__delay-9s">🔧 نصب</h2>
+
+      <ol class="animate__animated animate__fadeInUp animate__delay-10s">
+        <li><strong>نصب کتابخانه Adafruit NeoPixel:</strong>
+          <ul>
+            <li>Arduino IDE را باز کنید.</li>
+            <li>به Sketch &gt; Include Library &gt; Manage Libraries… بروید.</li>
+            <li>"Adafruit NeoPixel" را جستجو کنید.</li>
+            <li>روی "Install" کلیک کنید.</li>
+          </ul>
+        </li>
+        <li><strong>کلون کردن این مخزن:</strong>
+          <div class="highlight-box">
+            <pre><code>git clone https://github.com/Esmail-sarhadi/neopixel-sequencer.git</code></pre>
+          </div>
+        </li>
+        <li><strong>رفتن به دایرکتوری پروژه:</strong>
+          <div class="highlight-box">
+            <pre><code>cd neopixel-sequencer</code></pre>
+          </div>
+        </li>
+        <li><strong>باز کردن پروژه در Arduino IDE:</strong>
+          <ul>
+            <li>فایل <code>neopixel_sequencer.ino</code> را از دایرکتوری پروژه باز کنید.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h2 id="usage" class="animate__animated animate__fadeInRight animate__delay-11s">🚀 استفاده</h2>
+
+      <ol class="animate__animated animate__fadeInUp animate__delay-12s">
+        <li><strong>اتصال نوار NeoPixel به آردوینو:</strong>
+          <ul>
+            <li>پین داده به طور پیش‌فرض روی پین 15 تنظیم شده است. در صورت نیاز، متغیر <code>neoPixelPin</code> را در کد تغییر دهید.</li>
+            <li>متغیر <code>numPixels</code> را با تعداد LEDهای نوار خود تطبیق دهید.</li>
+          </ul>
+        </li>
+        <li><strong>آپلود اسکچ به آردوینو:</strong>
+          <ul>
+            <li>برد و پورت صحیح را در Arduino IDE انتخاب کنید.</li>
+            <li>روی "Upload" کلیک کنید.</li>
+          </ul>
+        </li>
+        <li><strong>تغذیه نوار NeoPixel</strong> با یک منبع تغذیه مناسب.</li>
+      </ol>
+
+      <h2 id="code" class="animate__animated animate__fadeInRight animate__delay-13s">📄 کد</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-14s">می‌توانید کد کامل را در فایل <code>neopixel_sequencer.ino</code> موجود در این مخزن پیدا کنید.</p>
+
+      <h2 id="license" class="animate__animated animate__fadeInRight animate__delay-15s">📜 مجوز</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-16s">این پروژه تحت مجوز MIT منتشر شده است - برای جزئیات فایل <a href="/neopixel-sequencer/LICENSE">LICENSE</a> را ببینید.</p>
+
+      <h2 id="contributing" class="animate__animated animate__fadeInRight animate__delay-17s">🤝 مشارکت</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-18s">لطفاً مسائل و درخواست‌های pull را ارسال کنید. مشارکت‌ها مورد استقبال قرار می‌گیرند!</p>
+
+      <h2 id="profile" class="animate__animated animate__fadeInRight animate__delay-19s">👤 پروفایل</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-20s">پروفایل GitHub من را ببینید: <a href="https://github.com/Esmail-sarhadi" target="_blank" class="btn"><i class="fab fa-github"></i> اسماعیل سرحدی</a></p>
+
+      <h2 id="project-link" class="animate__animated animate__fadeInRight animate__delay-21s">🔗 لینک پروژه</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-22s">این پروژه را در GitHub مشاهده کنید: <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer" target="_blank" class="btn"><i class="fab fa-github"></i> neopixel-sequencer</a></p>
+
+      <h2 id="donation" class="animate__animated animate__fadeInRight animate__delay-23s">💖 حمایت مالی</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-24s">اگر این پروژه برای شما مفید است، لطفاً حمایت مالی کنید:</p>
+      <p class="animate__animated animate__fadeIn animate__delay-25s"><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank" class="btn">
+      <h2 id="donation" class="animate__animated animate__fadeInRight animate__delay-23s">💖 حمایت مالی</h2>
+
+      <p class="animate__animated animate__fadeIn animate__delay-24s">اگر این پروژه برای شما مفید است، لطفاً حمایت مالی کنید:</p>
+      <p class="animate__animated animate__fadeIn animate__delay-25s"><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank" class="btn">
+        <i class="fas fa-donate"></i> اهدای ارز دیجیتال
+      </a></p>
+
+      <div class="footer animate__animated animate__fadeIn animate__delay-26s">
+        <p>این سایت منبع باز است. <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer/edit/main/README.md">این صفحه را بهبود دهید</a>.</p>
+        <p>ساخته شده با ❤️ توسط <span class="author-name">اسماعیل سرحدی</span></p>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
