@@ -1,239 +1,1880 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NeoPixel Sequencer Project by Esmail Sarhadi</title>
-    <link rel="stylesheet" href="/neopixel-sequencer/assets/css/style.css?v=0bc564dcc43aaf89500c59585a2a24a22699f241">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoPixel Sequencer - Ultra Futuristic Experience</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta name="google-site-verification" content="vqq11CWNVkLVnZvjCeZReKc8-FRmgxek2SOWjr35CbY" />
-    <link rel="shortcut icon" type="image/png" href="android-chrome-512x512.png"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-      @font-face {
-        font-family: 'Roboto';
-        src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');     
-        font-weight: normal;
-        font-style: normal;
-      }
-      body {
-        font-family: 'Roboto', Arial, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background-color: #f4f4f4;
-      }
-      .container-lg {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        border-radius: 5px;
-      }
-      h1, h2 {
-        color: #2c3e50;
-      }
-      .author-name {
-        font-size: 1.2em;
-        color: #e74c3c;
-        font-weight: bold;
-      }
-      .feature-list {
-        list-style-type: none;
-        padding-left: 0;
-      }
-      .feature-list li {
-        margin-bottom: 10px;
-        padding-left: 25px;
-        position: relative;
-      }
-      .feature-list li:before {
-        content: "\f00c";
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
-        position: absolute;
-        left: 0; 
-        color: #2ecc71;
-      }
-      .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #3498db;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-      }
-      .btn:hover {
-        background-color: #2980b9;
-        transform: translateY(-2px);
-      }
-      .footer {
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid #eee;
-        text-align: center;
-        color: #7f8c8d;
-      }
-      .language-switch {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        display: flex;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 5px 10px;
-        border-radius: 20px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      }
-      .language-switch img {
-        transition: transform 0.3s ease;
-      }
-      .language-switch img:hover {
-        transform: scale(1.1);
-      }
-      .highlight-box {
-        background-color: #f9f9f9;
-        border-left: 5px solid #3498db; 
-        padding: 15px;
-        margin-bottom: 20px;
-        transition: transform 0.3s ease;
-      }
-      .highlight-box:hover {
-        transform: translateX(5px);
-      }
-      pre {
-        background-color: #f1f1f1;
-        padding: 15px;
-        border-radius: 5px;
-        overflow-x: auto; 
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap');
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --neon-blue: #00d4ff;
+            --neon-pink: #ff0080;
+            --neon-green: #00ff88;
+            --neon-purple: #8b5cf6;
+            --dark: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: all 0.1s ease;
+        }
+
+        .cursor-trail {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-pink);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.7;
+        }
+
+        /* 3D Background Scene */
+        .bg-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .bg-layer {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: linear-gradient(45deg, 
+                rgba(102, 126, 234, 0.1) 0%, 
+                rgba(118, 75, 162, 0.1) 25%,
+                rgba(240, 147, 251, 0.1) 50%,
+                rgba(0, 212, 255, 0.1) 75%,
+                rgba(255, 0, 128, 0.1) 100%);
+            animation: rotate3d 20s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .bg-layer:nth-child(2) {
+            animation-delay: -5s;
+            background: radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+        }
+
+        .bg-layer:nth-child(3) {
+            animation-delay: -10s;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(0, 255, 136, 0.1) 0deg, rgba(255, 0, 128, 0.1) 180deg, rgba(0, 212, 255, 0.1) 360deg);
+        }
+
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            33% { transform: rotateX(120deg) rotateY(120deg) rotateZ(40deg); }
+            66% { transform: rotateX(240deg) rotateY(240deg) rotateZ(80deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(120deg); }
+        }
+
+        /* Floating Geometric Shapes */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.6;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            top: 20%;
+            left: 10%;
+        }
+
+        .shape:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--accent));
+            border-radius: 50%;
+            top: 60%;
+            right: 15%;
+            animation-delay: -2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -4s;
+        }
+
+        .shape:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            transform: rotate(45deg);
+            top: 40%;
+            right: 30%;
+            animation-delay: -6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            25% { transform: translateY(-20px) rotate(90deg) scale(1.1); }
+            50% { transform: translateY(-40px) rotate(180deg) scale(0.9); }
+            75% { transform: translateY(-20px) rotate(270deg) scale(1.1); }
+        }
+
+        /* Matrix Rain Effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            color: var(--neon-green);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            animation: matrixFall linear infinite;
+        }
+
+        @keyframes matrixFall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* Glassmorphism Container with Advanced Effects */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            backdrop-filter: blur(25px) saturate(180%);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 2px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 0 1px rgba(102, 126, 234, 0.1);
+            margin: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        /* Language Switcher with Holographic Effect */
+        .language-switch {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            padding: 12px 24px;
+            border-radius: 50px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .language-switch:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.1));
+        }
+
+        .language-switch img {
+            width: 32px;
+            height: 24px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .language-switch img:hover {
+            transform: scale(1.3) rotate(5deg);
+            filter: brightness(1.3) contrast(1.3) saturate(1.5);
+        }
+
+        /* Holographic Title */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, 
+                var(--neon-blue) 0%,
+                var(--neon-purple) 25%,
+                var(--neon-pink) 50%,
+                var(--neon-green) 75%,
+                var(--neon-blue) 100%);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: holographicShift 4s ease-in-out infinite, titleFloat 6s ease-in-out infinite;
+            text-shadow: 
+                0 0 10px rgba(0, 212, 255, 0.5),
+                0 0 20px rgba(139, 92, 246, 0.3),
+                0 0 30px rgba(255, 0, 128, 0.2);
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
+        }
+
+        h1::before {
+            content: 'NeoPixel Sequencer';
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: glitchEffect 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes holographicShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-10px) rotateX(5deg); }
+        }
+
+        @keyframes glitchEffect {
+            0% { opacity: 1; transform: translate(0); }
+            20% { opacity: 0.8; transform: translate(-2px, 1px); }
+            40% { opacity: 1; transform: translate(1px, -1px); }
+            60% { opacity: 0.9; transform: translate(-1px, 2px); }
+            80% { opacity: 1; transform: translate(2px, -2px); }
+            100% { opacity: 1; transform: translate(0); }
+        }
+
+        /* Animated Subtitle with Typewriter Effect */
+        .subtitle {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .typewriter {
+            display: inline-block;
+            border-right: 3px solid var(--neon-blue);
+            animation: blink 1s infinite, typewriterGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: var(--neon-blue); }
+            51%, 100% { border-color: transparent; }
+        }
+
+        @keyframes typewriterGlow {
+            0% { text-shadow: 0 0 5px rgba(0, 212, 255, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(0, 212, 255, 0.8), 0 0 25px rgba(139, 92, 246, 0.4); }
+        }
+
+        /* Section Headers with 3D Effect */
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin: 80px 0 40px 0;
+            color: #ffffff;
+            position: relative;
+            display: inline-block;
+            transform-style: preserve-3d;
+            transition: all 0.4s ease;
+        }
+
+        h2:hover {
+            transform: rotateX(15deg) rotateY(-5deg) translateZ(20px);
+        }
+
+        h2::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: var(--neon-blue);
+            z-index: -1;
+            transform: translateZ(-10px) translateX(2px) translateY(2px);
+            opacity: 0.7;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            border-radius: 3px;
+            animation: underlineExpand 1s ease forwards, underlineGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes underlineExpand {
+            to { width: 100%; }
+        }
+
+        @keyframes underlineGlow {
+            0% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.8), 0 0 25px rgba(139, 92, 246, 0.4); }
+        }
+
+        /* Advanced Feature Cards with Morphing Effects */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+            perspective: 1000px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 2px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(15px) saturate(180%);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(102, 126, 234, 0.1),
+                rgba(118, 75, 162, 0.1),
+                rgba(240, 147, 251, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .feature-card:hover::after {
+            animation: cardShimmer 1.5s ease-in-out;
+        }
+
+        @keyframes cardShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) rotateX(10deg) rotateY(5deg) scale(1.03);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(102, 126, 234, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-color: rgba(102, 126, 234, 0.6);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            display: block;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5));
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotateY(180deg);
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.8));
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-title {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-desc {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Holographic Requirements Section */
+        .requirements-section {
+            margin: 80px 0;
+            perspective: 1000px;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .requirement-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .requirement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .requirement-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .requirement-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .requirement-card h3 {
+            color: var(--neon-blue);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .requirement-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .requirement-list li {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .requirement-list li::before {
+            content: '▶';
+            margin-right: 20px;
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .requirement-list li:hover {
+            padding-left: 15px;
+            color: var(--neon-blue);
+            transform: translateX(10px);
+        }
+
+        .requirement-list li:hover::before {
+            transform: scale(1.3) rotate(90deg);
+            color: var(--neon-pink);
+        }
+
+        /* 3D Installation Steps */
+        .installation-steps {
+            counter-reset: step-counter;
+            perspective: 1200px;
+        }
+
+        .step {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            backdrop-filter: blur(15px);
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            counter-increment: step-counter;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            top: -20px;
+            left: 40px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .step:hover::before {
+            transform: scale(1.2) rotateY(360deg);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .step:hover {
+            transform: translateX(20px) rotateY(5deg) translateZ(10px);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .step h3 {
+            margin-bottom: 20px;
+            color: var(--neon-blue);
+            font-size: 1.4rem;
+        }
+
+        /* Enhanced Code Blocks */
+        .code-block {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            border: 2px solid var(--neon-green);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon-green);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(0, 255, 136, 0.2);
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue), var(--neon-purple));
+            animation: codeGlow 3s ease-in-out infinite alternate;
+        }
+
+        .code-block::after {
+            content: '01010110 01100101 01110010 01110100 01100101 01111000';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.7rem;
+            opacity: 0.3;
+            color: var(--neon-blue);
+        }
+
+        @keyframes codeGlow {
+            0% { 
+                opacity: 0.7;
+                box-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+            }
+            100% { 
+                opacity: 1;
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.6), 0 0 40px rgba(0, 255, 136, 0.3);
+            }
+        }
+
+        /* Morphing Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 20px rgba(102, 126, 234, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform-style: preserve-3d;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05) rotateX(5deg);
+            box-shadow: 
+                0 15px 35px rgba(102, 126, 234, 0.6),
+                0 0 0 3px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-blue) 100%);
+        }
+
+        .btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn i {
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        /* Holographic Footer */
+        .footer {
+            margin-top: 100px;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-green));
+            animation: footerGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes footerGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
+        }
+
+        .author-name {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .author-name:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.8));
+        }
+
+        /* Advanced Animations */
+        .fade-in {
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease forwards;
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease forwards;
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .zoom-in {
+            animation: zoomIn 0.6s ease forwards;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        @keyframes zoomIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Particle System */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* Glitch Effects */
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            animation: glitch-1 0.5s infinite;
+            color: var(--neon-pink);
+            z-index: -1;
+        }
+
+        .glitch::after {
+            animation: glitch-2 0.5s infinite;
+            color: var(--neon-blue);
+            z-index: -2;
+        }
+
+        @keyframes glitch-1 {
+            0% { clip: rect(132px, 9999px, 142px, 0); }
+            5% { clip: rect(17px, 9999px, 94px, 0); }
+            10% { clip: rect(40px, 9999px, 66px, 0); }
+            15% { clip: rect(87px, 9999px, 82px, 0); }
+            20% { clip: rect(137px, 9999px, 61px, 0); }
+            25% { clip: rect(34px, 9999px, 14px, 0); }
+            30% { clip: rect(133px, 9999px, 74px, 0); }
+            35% { clip: rect(76px, 9999px, 107px, 0); }
+            40% { clip: rect(59px, 9999px, 130px, 0); }
+            45% { clip: rect(29px, 9999px, 84px, 0); }
+            50% { clip: rect(22px, 9999px, 67px, 0); }
+            55% { clip: rect(67px, 9999px, 62px, 0); }
+            60% { clip: rect(10px, 9999px, 105px, 0); }
+            65% { clip: rect(78px, 9999px, 115px, 0); }
+            70% { clip: rect(105px, 9999px, 13px, 0); }
+            75% { clip: rect(15px, 9999px, 75px, 0); }
+            80% { clip: rect(66px, 9999px, 39px, 0); }
+            85% { clip: rect(133px, 9999px, 73px, 0); }
+            90% { clip: rect(36px, 9999px, 128px, 0); }
+            95% { clip: rect(68px, 9999px, 103px, 0); }
+            100% { clip: rect(14px, 9999px, 100px, 0); }
+        }
+
+        @keyframes glitch-2 {
+            0% { clip: rect(129px, 9999px, 36px, 0); }
+            5% { clip: rect(36px, 9999px, 4px, 0); }
+            10% { clip: rect(85px, 9999px, 66px, 0); }
+            15% { clip: rect(91px, 9999px, 91px, 0); }
+            20% { clip: rect(148px, 9999px, 138px, 0); }
+            25% { clip: rect(38px, 9999px, 122px, 0); }
+            30% { clip: rect(69px, 9999px, 54px, 0); }
+            35% { clip: rect(98px, 9999px, 71px, 0); }
+            40% { clip: rect(146px, 9999px, 34px, 0); }
+            45% { clip: rect(134px, 9999px, 43px, 0); }
+            50% { clip: rect(102px, 9999px, 80px, 0); }
+            55% { clip: rect(119px, 9999px, 44px, 0); }
+            60% { clip: rect(106px, 9999px, 99px, 0); }
+            65% { clip: rect(141px, 9999px, 74px, 0); }
+            70% { clip: rect(20px, 9999px, 78px, 0); }
+            75% { clip: rect(133px, 9999px, 79px, 0); }
+            80% { clip: rect(78px, 9999px, 52px, 0); }
+            85% { clip: rect(35px, 9999px, 39px, 0); }
+            90% { clip: rect(67px, 9999px, 70px, 0); }
+            95% { clip: rect(71px, 9999px, 103px, 0); }
+            100% { clip: rect(83px, 9999px, 40px, 0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container { margin: 20px 10px; padding: 40px 30px; }
+            .features-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 30px 20px; }
+            .language-switch { 
+                position: relative; 
+                top: 0; 
+                right: 0; 
+                margin-bottom: 30px; 
+                justify-content: center; 
+            }
+            h1 { font-size: clamp(2.5rem, 8vw, 4rem); }
+            h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); }
+            .features-grid { grid-template-columns: 1fr; gap: 20px; }
+            .requirements-grid { grid-template-columns: 1fr; }
+            .feature-card, .requirement-card, .step { padding: 25px; }
+        }
+
+        @media (max-width: 480px) {
+            .btn { padding: 14px 28px; font-size: 1rem; }
+            .subtitle { font-size: 1.1rem; }
+            .feature-icon { font-size: 2.5rem; }
+        }
+
+        /* High Performance Animations */
+        * {
+            will-change: transform, opacity;
+        }
+
+        .gpu-accelerated {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000;
+        }
     </style>
-  </head>
-  <body>
-    <div class="container-lg px-3 my-5 markdown-body"> 
-      <div class="language-switch">
-        <span style="font-size: 1.2em; font-weight: bold; margin-right: 10px;">Language</span>
-        <a href="index.html" style="text-decoration: none; margin: 0 5px;">
-          <img src="https://flagcdn.com/w40/gb.png" width="30" alt="English">
-        </a>
-        <a href="index_fa.html" style="text-decoration: none; margin: 0 5px;">
-          <img src="https://flagcdn.com/w40/ir.png" width="30" alt="Persian">
-        </a>
-      </div>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-trail"></div>
 
-      <h1 id="neopixel-sequencer" class="animate__animated animate__fadeInDown">NeoPixel Sequencer</h1>
-      
-      <p class="animate__animated animate__fadeIn">This repository contains a project for controlling NeoPixel LED strips using an Arduino. The code cycles through multiple lighting patterns, automatically switching between them. The NeoPixel strip is initialized with specific parameters and various lighting effects are implemented, including rainbow, theater chase, color wipe, scanner, fade in/out, and strobe. The patterns can be easily modified or expanded upon for customized LED displays.</p>
-
-      <hr>
-
-      <h2 id="features" class="animate__animated animate__fadeInLeft">✨ Features</h2>
-
-      <ul class="feature-list animate__animated animate__fadeInUp">
-        <li><strong>Rainbow Pattern:</strong> Displays a moving rainbow across the strip.</li>
-        <li><strong>Theater Chase:</strong> Creates a theater marquee effect.</li> 
-        <li><strong>Color Wipe:</strong> Sequentially lights up each LED in a specified color.</li>
-        <li><strong>Scanner:</strong> Simulates a scanning light effect.</li>
-        <li><strong>Fade In/Out:</strong> Smoothly fades LEDs in and out.</li>
-        <li><strong>Strobe:</strong> Rapidly flashes the LEDs.</li>
-      </ul>
-
-      <h2 id="hardware-required" class="animate__animated animate__fadeInLeft">🛠️ Hardware Required</h2>
-
-      <ul class="animate__animated animate__fadeInUp">
-        <li>Arduino (any model)</li>
-        <li>NeoPixel LED strip (WS2812 or similar)</li> 
-        <li>Connecting wires</li>
-        <li>Power supply for the LED strip (ensure it matches the power requirements of your NeoPixel strip)</li>
-      </ul>
-
-      <h2 id="software-required" class="animate__animated animate__fadeInLeft">💻 Software Required</h2>
-
-      <ul class="animate__animated animate__fadeInUp">
-        <li>Arduino IDE</li>
-        <li>Adafruit NeoPixel library</li>
-      </ul>
-
-      <h2 id="installation" class="animate__animated animate__fadeInLeft">🔧 Installation</h2>
-
-      <ol class="animate__animated animate__fadeInUp">
-        <li><strong>Install the Adafruit NeoPixel library:</strong>
-          <ul>
-            <li>Open the Arduino IDE.</li>
-            <li>Go to Sketch &gt; Include Library &gt; Manage Libraries…</li>
-            <li>Search for "Adafruit NeoPixel".</li>
-            <li>Click "Install".</li>
-          </ul>
-        </li>
-        <li><strong>Clone this repository:</strong>
-          <div class="highlight-box">
-            <pre><code>git clone https://github.com/Esmail-sarhadi/neopixel-sequencer.git</code></pre>
-          </div>
-        </li>
-        <li><strong>Navigate to the project directory:</strong>
-          <div class="highlight-box">
-            <pre><code>cd neopixel-sequencer</code></pre>
-          </div>
-        </li>
-        <li><strong>Open the project in the Arduino IDE:</strong>
-          <ul>
-            <li>Open the <code>neopixel_sequencer.ino</code> file from the project directory.</li>
-          </ul>
-        </li>
-      </ol>
-
-      <h2 id="usage" class="animate__animated animate__fadeInLeft">🚀 Usage</h2>
-
-      <ol class="animate__animated animate__fadeInUp">
-        <li><strong>Connect the NeoPixel strip to your Arduino:</strong>
-          <ul>
-            <li>Data pin is set to pin 15 by default. Modify the <code>neoPixelPin</code> variable in the code if needed.</li>
-            <li>Adjust the <code>numPixels</code> variable to match the number of LEDs in your strip.</li>
-          </ul>
-        </li>
-        <li><strong>Upload the sketch to your Arduino:</strong>
-          <ul>
-            <li>Select the correct board and port in the Arduino IDE.</li>
-            <li>Click "Upload".</li>
-          </ul>
-        </li>
-        <li><strong>Power the NeoPixel strip</strong> with an appropriate power supply.</li>
-      </ol>
-
-      <h2 id="code" class="animate__animated animate__fadeInLeft">📄 Code</h2>
-
-      <p class="animate__animated animate__fadeIn">You can find the complete code in the <code>neopixel_sequencer.ino</code> file included in this repository.</p>
-
-      <h2 id="license" class="animate__animated animate__fadeInLeft">📜 License</h2>
-
-      <p class="animate__animated animate__fadeIn">This project is licensed under the MIT License - see the <a href="/neopixel-sequencer/LICENSE">LICENSE</a> file for details.</p>
-
-      <h2 id="contributing" class="animate__animated animate__fadeInLeft">🤝 Contributing</h2>
-
-      <p class="animate__animated animate__fadeIn">Feel free to submit issues and pull requests. Contributions are welcome!</p>
-
-      <h2 id="profile" class="animate__animated animate__fadeInLeft">👤 Profile</h2>
-
-      <p class="animate__animated animate__fadeIn">Check out my GitHub profile: <a href="https://github.com/Esmail-sarhadi" target="_blank" class="btn"><i class="fab fa-github"></i> Esmail Sarhadi</a></p>
-
-      <h2 id="project-link" class="animate__animated animate__fadeInLeft">🔗 Project Link</h2>
-
-      <p class="animate__animated animate__fadeIn">View this project on GitHub: <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer" target="_blank" class="btn"><i class="fab fa-github"></i> neopixel-sequencer</a></p>
-
-      <h2 id="donation" class="animate__animated animate__fadeInLeft">💖 Donation</h2>
-
-      <p class="animate__animated animate__fadeIn">If you find this project helpful, consider making a donation:</p>
-      <p class="animate__animated animate__fadeIn"><a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank" class="btn">
-        <i class="fas fa-donate"></i> Donate Cryptocurrency
-      </a></p>
-
-      <div class="footer animate__animated animate__fadeIn">
-        <p>This site is open source. <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer/edit/main/README.md">Improve this page</a>.</p>
-        <p>Made with ❤️ by <span class="author-name">Esmail Sarhadi</span></p>
-      </div>
+    <div class="bg-scene">
+        <div class="bg-layer"></div>
+        <div class="bg-layer"></div>
+        <div class="bg-layer"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
-    <script>anchors.add();</script>
-  </body>
+
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="matrix-rain"></div>
+    
+    <div class="container parallax gpu-accelerated">
+        <div class="language-switch">
+            <span style="font-weight: 700; margin-right: 15px; background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🌐 Language</span>
+            <a href="#" style="text-decoration: none;">
+                <img src="https://flagcdn.com/w40/gb.png" alt="English">
+            </a>
+            <a href="#" style="text-decoration: none;">
+                <img src="https://flagcdn.com/w40/ir.png" alt="Persian">
+            </a>
+        </div>
+
+        <h1 class="fade-in glitch" data-text="NeoPixel Sequencer">NeoPixel Sequencer</h1>
+        
+        <p class="subtitle fade-in">
+            <span class="typewriter">Experience the ultimate fusion of cutting-edge Arduino technology and mesmerizing LED artistry. Create breathtaking light symphonies with our advanced sequencing system featuring rainbow cascades, theater marquees, color waves, quantum scanners, ethereal fades, and hypnotic strobes.</span>
+        </p>
+
+        <h2 class="slide-in-left" data-text="✨ Features">✨ Features</h2>
+
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <i class="fas fa-rainbow feature-icon"></i>
+                <div class="feature-title">🌈 Quantum Rainbow</div>
+                <div class="feature-desc">Experience a mesmerizing spectrum cascade that flows across your LED strip with fluid color transitions and dynamic brightness modulation</div>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <i class="fas fa-theater-masks feature-icon"></i>
+                <div class="feature-title">🎭 Theater Marquee</div>
+                <div class="feature-desc">Create authentic vintage theater effects with sophisticated chasing patterns and customizable timing sequences</div>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <i class="fas fa-paint-brush feature-icon"></i>
+                <div class="feature-title">🎨 Color Morphing</div>
+                <div class="feature-desc">Sequential illumination with smooth color transitions, creating fluid waves of light across your display</div>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <i class="fas fa-radar feature-icon"></i>
+                <div class="feature-title">📡 Quantum Scanner</div>
+                <div class="feature-desc">Advanced scanning algorithm that simulates futuristic radar sweeps with customizable trails and intensity</div>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <i class="fas fa-moon feature-icon"></i>
+                <div class="feature-title">🌙 Ethereal Breathing</div>
+                <div class="feature-desc">Organic fade patterns that mimic natural breathing rhythms with variable intensity curves and color shifts</div>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <i class="fas fa-bolt feature-icon"></i>
+                <div class="feature-title">⚡ Hypnotic Strobe</div>
+                <div class="feature-desc">Precision-timed strobe effects with adjustable frequency, intensity, and multi-color synchronization</div>
+            </div>
+        </div>
+
+        <h2 class="slide-in-right" data-text="🛠️ Hardware Arsenal">🛠️ Hardware Arsenal</h2>
+
+        <div class="requirements-grid">
+            <div class="requirement-card zoom-in">
+                <h3>
+                    <i class="fas fa-microchip" style="color: var(--neon-blue);"></i>
+                    Core Electronics
+                </h3>
+                <ul class="requirement-list">
+                    <li>Arduino Uno/Nano/ESP32 (32-bit recommended)</li>
+                    <li>WS2812B/WS2813 NeoPixel Strip (addressable)</li>
+                    <li>High-grade jumper wires (22 AWG minimum)</li>
+                    <li>Logic level converter (3.3V ↔ 5V)</li>
+                    <li>Breadboard or custom PCB</li>
+                </ul>
+            </div>
+            
+            <div class="requirement-card zoom-in">
+                <h3>
+                    <i class="fas fa-bolt" style="color: var(--neon-green);"></i>
+                    Power Management
+                </h3>
+                <ul class="requirement-list">
+                    <li>5V DC Power Supply (calculate: LEDs × 60mA)</li>
+                    <li>Power distribution board</li>
+                    <li>Bypass capacitors (1000µF, 100µF)</li>
+                    <li>Fuse protection (safety first!)</li>
+                    <li>Heat dissipation solution</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="slide-in-left" data-text="💻 Software Stack">💻 Software Stack</h2>
+
+        <div class="requirements-grid">
+            <div class="requirement-card zoom-in">
+                <h3>
+                    <i class="fas fa-laptop-code" style="color: var(--neon-purple);"></i>
+                    Development Environment
+                </h3>
+                <ul class="requirement-list">
+                    <li>Arduino IDE 2.0+ (latest stable)</li>
+                    <li>Adafruit NeoPixel Library v1.10+</li>
+                    <li>FastLED Library (optional, advanced)</li>
+                    <li>Serial Monitor for debugging</li>
+                    <li>Git for version control</li>
+                </ul>
+            </div>
+            
+            <div class="requirement-card zoom-in">
+                <h3>
+                    <i class="fas fa-tools" style="color: var(--neon-pink);"></i>
+                    Advanced Tools
+                </h3>
+                <ul class="requirement-list">
+                    <li>PlatformIO (professional development)</li>
+                    <li>Logic analyzer (debugging)</li>
+                    <li>Oscilloscope (signal analysis)</li>
+                    <li>LED strip calculator tool</li>
+                    <li>Color picker & palette generator</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="slide-in-right" data-text="🔧 Installation Matrix">🔧 Installation Matrix</h2>
+
+        <div class="installation-steps">
+            <div class="step fade-in">
+                <h3>🚀 Environment Setup</h3>
+                <p>Install Arduino IDE 2.0+ from official website. Enable additional board packages if using ESP32/ESP8266. Configure your development environment with proper USB drivers.</p>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>📚 Library Installation</h3>
+                <p>Navigate to <strong>Tools → Manage Libraries</strong>, search for "Adafruit NeoPixel", install latest version. Also install FastLED for advanced features.</p>
+                <div class="code-block">
+                    // Library Manager Search Terms:
+                    "Adafruit NeoPixel"
+                    "FastLED by Daniel Garcia"
+                </div>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>📦 Repository Acquisition</h3>
+                <div class="code-block">
+                    git clone https://github.com/Esmail-sarhadi/neopixel-sequencer.git
+                    cd neopixel-sequencer
+                    git checkout main
+                </div>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>⚙️ Configuration Optimization</h3>
+                <p>Open <code style="background: rgba(0,255,136,0.1); padding: 6px 12px; border-radius: 6px; color: var(--neon-green);">neopixel_sequencer.ino</code> and customize:</p>
+                <div class="code-block">
+                    #define LED_PIN        15    // Data pin connection
+                    #define LED_COUNT      60    // Number of LEDs
+                    #define BRIGHTNESS     80    // Global brightness (0-255)
+                    #define LED_TYPE       WS2812B
+                </div>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>🔌 Hardware Integration</h3>
+                <p>Wire your NeoPixel strip: <strong>VCC→5V</strong>, <strong>GND→GND</strong>, <strong>DIN→Pin 15</strong>. Add 470Ω resistor in data line and 1000µF capacitor across power rails.</p>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>⚡ Power Calibration</h3>
+                <p>Calculate power requirements: <code style="color: var(--neon-green);">Total Current = LED_COUNT × 60mA</code>. Use dedicated 5V supply for strips over 30 LEDs.</p>
+            </div>
+        </div>
+
+        <h2 class="slide-in-left" data-text="🚀 Deployment Protocol">🚀 Deployment Protocol</h2>
+
+        <div class="installation-steps">
+            <div class="step fade-in">
+                <h3>🎯 Target Configuration</h3>
+                <p>Select your Arduino board type and communication port. For ESP32: install ESP32 board package via Board Manager.</p>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>📡 Code Transmission</h3>
+                <p>Verify code compilation, then upload to microcontroller. Monitor serial output for initialization status and debug information.</p>
+            </div>
+            
+            <div class="step fade-in">
+                <h3>🎪 Pattern Activation</h3>
+                <p>Power on your LED strip and witness the automatic pattern cycling. Modify timing variables for custom sequences.</p>
+            </div>
+        </div>
+
+        <h2 class="slide-in-right" data-text="🔗 Digital Gateway">🔗 Digital Gateway</h2>
+
+        <div style="display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; margin: 60px 0;">
+            <a href="https://github.com/Esmail-sarhadi" target="_blank" class="btn fade-in">
+                <i class="fab fa-github"></i> Developer Profile
+            </a>
+            <a href="https://github.com/Esmail-sarhadi/neopixel-sequencer" target="_blank" class="btn fade-in">
+                <i class="fas fa-code-branch"></i> Source Repository
+            </a>
+            <a href="https://nowpayments.io/donation?api_key=REWCYVC-A1AMFK3-QNRS663-PKJSBD2&source=lk_donation&medium=referral" target="_blank" class="btn fade-in">
+                <i class="fas fa-heart"></i> Support Innovation
+            </a>
+            <a href="#" class="btn fade-in">
+                <i class="fas fa-book"></i> Documentation
+            </a>
+            <a href="#" class="btn fade-in">
+                <i class="fas fa-video"></i> Video Tutorials
+            </a>
+        </div>
+
+        <div class="footer fade-in">
+            <p style="margin-bottom: 15px; font-size: 1.1rem;">Open Source • MIT License • Community Driven</p>
+            <p style="margin-bottom: 20px;">🌟 Crafted with quantum creativity and digital passion by</p>
+            <p><span class="author-name">Esmail Sarhadi</span></p>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">
+                "Code is poetry, LEDs are the canvas, and imagination is the only limit."
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Advanced Cursor System
+        const cursor = document.querySelector('.cursor');
+        const cursorTrails = [];
+        const trailCount = 8;
+
+        // Create cursor trails
+        for (let i = 0; i < trailCount; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            cursorTrails.push({
+                element: trail,
+                x: 0,
+                y: 0
+            });
+        }
+
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+        });
+
+        // Animate cursor trails
+        function animateTrails() {
+            cursorTrails.forEach((trail, index) => {
+                const delay = index * 0.1;
+                trail.x += (mouseX - trail.x) * (0.3 - delay * 0.02);
+                trail.y += (mouseY - trail.y) * (0.3 - delay * 0.02);
+                
+                trail.element.style.left = trail.x - 4 + 'px';
+                trail.element.style.top = trail.y - 4 + 'px';
+                trail.element.style.opacity = 0.8 - index * 0.1;
+                trail.element.style.transform = `scale(${1 - index * 0.1})`;
+            });
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+
+        // Matrix Rain Effect
+        function createMatrixRain() {
+            const matrixContainer = document.querySelector('.matrix-rain');
+            const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 50; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                column.style.animationDelay = Math.random() * 2 + 's';
+                
+                let text = '';
+                for (let j = 0; j < 20; j++) {
+                    text += characters[Math.floor(Math.random() * characters.length)] + '<br>';
+                }
+                column.innerHTML = text;
+                
+                matrixContainer.appendChild(column);
+            }
+        }
+        createMatrixRain();
+
+        // Advanced Particle System
+        class ParticleSystem {
+            constructor() {
+                this.particles = [];
+                this.mouse = { x: 0, y: 0 };
+                this.init();
+            }
+
+            init() {
+                for (let i = 0; i < 100; i++) {
+                    this.createParticle();
+                }
+                this.animate();
+            }
+
+            createParticle() {
+                const particle = {
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    size: Math.random() * 3 + 1,
+                    color: ['#667eea', '#764ba2', '#f093fb', '#00d4ff', '#ff0080', '#00ff88'][Math.floor(Math.random() * 6)],
+                    alpha: Math.random() * 0.5 + 0.3,
+                    element: null
+                };
+
+                particle.element = document.createElement('div');
+                particle.element.className = 'particle';
+                particle.element.style.position = 'fixed';
+                particle.element.style.width = particle.size + 'px';
+                particle.element.style.height = particle.size + 'px';
+                particle.element.style.backgroundColor = particle.color;
+                particle.element.style.borderRadius = '50%';
+                particle.element.style.pointerEvents = 'none';
+                particle.element.style.zIndex = '-1';
+                particle.element.style.opacity = particle.alpha;
+                particle.element.style.boxShadow = `0 0 ${particle.size * 2}px ${particle.color}`;
+                
+                document.body.appendChild(particle.element);
+                this.particles.push(particle);
+            }
+
+            animate() {
+                this.particles.forEach(particle => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+
+                    // Bounce off edges
+                    if (particle.x < 0 || particle.x > window.innerWidth) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > window.innerHeight) particle.vy *= -1;
+
+                    // Mouse interaction
+                    const dx = this.mouse.x - particle.x;
+                    const dy = this.mouse.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        particle.vx += dx * 0.0001;
+                        particle.vy += dy * 0.0001;
+                    }
+
+                    particle.element.style.left = particle.x + 'px';
+                    particle.element.style.top = particle.y + 'px';
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        const particleSystem = new ParticleSystem();
+
+        document.addEventListener('mousemove', (e) => {
+            particleSystem.mouse.x = e.clientX;
+            particleSystem.mouse.y = e.clientY;
+        });
+
+        // Typewriter Effect
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed + Math.random() * 50);
+                }
+            }
+            type();
+        }
+
+        // Initialize typewriter when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const typewriterEl = document.querySelector('.typewriter');
+                if (typewriterEl) {
+                    const text = typewriterEl.textContent;
+                    typeWriter(typewriterEl, text, 30);
+                }
+            }, 1000);
+        });
+
+        // Advanced Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = Math.random() * 300;
+                    setTimeout(() => {
+                        entry.target.style.animationDelay = '0s';
+                        entry.target.classList.add(entry.target.dataset.animation || 'fade-in');
+                    }, delay);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .zoom-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 3D Parallax Effect
+        let ticking = false;
+
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const parallaxElements = document.querySelectorAll('.parallax');
+            
+            parallaxElements.forEach(el => {
+                el.style.transform = `translate3d(0, ${rate}px, 0)`;
+            });
+
+            // Update floating shapes
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = 0.2 + index * 0.1;
+                const yPos = -(scrolled * speed);
+                shape.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
+            });
+
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+        // Interactive Elements
+        // Interactive Elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add data attributes for 3D effects
+            document.querySelectorAll('h2').forEach(h2 => {
+                h2.setAttribute('data-text', h2.textContent);
+            });
+
+            // Enhanced button interactions
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.transform = 'translateY(-5px) scale(1.05) rotateX(5deg)';
+                    btn.style.boxShadow = '0 15px 35px rgba(102, 126, 234, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.1)';
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+                    btn.style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.4)';
+                });
+
+                btn.addEventListener('mousedown', () => {
+                    btn.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+
+                btn.addEventListener('mouseup', () => {
+                    btn.style.transform = 'translateY(-5px) scale(1.05) rotateX(5deg)';
+                });
+            });
+
+            // Feature card interactions
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-15px) rotateX(10deg) rotateY(5deg) scale(1.03)';
+                    
+                    // Add ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(102, 126, 234, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.width = '20px';
+                    ripple.style.height = '20px';
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.marginLeft = '-10px';
+                    ripple.style.marginTop = '-10px';
+                    
+                    card.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
+                });
+            });
+
+            // Code block copy functionality
+            document.querySelectorAll('.code-block').forEach(block => {
+                const copyBtn = document.createElement('button');
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                copyBtn.style.position = 'absolute';
+                copyBtn.style.top = '10px';
+                copyBtn.style.right = '15px';
+                copyBtn.style.background = 'rgba(0, 255, 136, 0.2)';
+                copyBtn.style.border = '1px solid var(--neon-green)';
+                copyBtn.style.color = 'var(--neon-green)';
+                copyBtn.style.padding = '8px 12px';
+                copyBtn.style.borderRadius = '6px';
+                copyBtn.style.cursor = 'pointer';
+                copyBtn.style.transition = 'all 0.3s ease';
+                copyBtn.style.fontSize = '12px';
+                
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(block.textContent);
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    copyBtn.style.background = 'rgba(0, 255, 136, 0.3)';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                        copyBtn.style.background = 'rgba(0, 255, 136, 0.2)';
+                    }, 2000);
+                });
+                
+                block.style.position = 'relative';
+                block.appendChild(copyBtn);
+            });
+        });
+
+        // Advanced Audio Visualization (Optional)
+        class AudioVisualizer {
+            constructor() {
+                this.audioContext = null;
+                this.analyser = null;
+                this.dataArray = null;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.analyser.fftSize = 256;
+                    this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+                    
+                    // Create visual elements based on audio
+                    this.createVisualElements();
+                } catch (error) {
+                    console.log('Audio visualization not available');
+                }
+            }
+
+            createVisualElements() {
+                const visualizer = document.createElement('div');
+                visualizer.style.position = 'fixed';
+                visualizer.style.bottom = '20px';
+                visualizer.style.left = '20px';
+                visualizer.style.width = '200px';
+                visualizer.style.height = '4px';
+                visualizer.style.background = 'linear-gradient(90deg, var(--neon-blue), var(--neon-purple))';
+                visualizer.style.borderRadius = '2px';
+                visualizer.style.opacity = '0.7';
+                visualizer.style.zIndex = '1000';
+                visualizer.id = 'audio-visualizer';
+                document.body.appendChild(visualizer);
+            }
+        }
+
+        // Performance Monitoring
+        class PerformanceMonitor {
+            constructor() {
+                this.frameCount = 0;
+                this.lastTime = performance.now();
+                this.fps = 0;
+                this.init();
+            }
+
+            init() {
+                this.createFPSCounter();
+                this.monitor();
+            }
+
+            createFPSCounter() {
+                const fpsCounter = document.createElement('div');
+                fpsCounter.style.position = 'fixed';
+                fpsCounter.style.top = '20px';
+                fpsCounter.style.left = '20px';
+                fpsCounter.style.background = 'rgba(0, 0, 0, 0.8)';
+                fpsCounter.style.color = 'var(--neon-green)';
+                fpsCounter.style.padding = '8px 12px';
+                fpsCounter.style.borderRadius = '6px';
+                fpsCounter.style.fontFamily = 'JetBrains Mono, monospace';
+                fpsCounter.style.fontSize = '12px';
+                fpsCounter.style.zIndex = '10000';
+                fpsCounter.style.display = 'none'; // Hidden by default
+                fpsCounter.id = 'fps-counter';
+                document.body.appendChild(fpsCounter);
+
+                // Toggle FPS counter with key combination
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.shiftKey && e.key === 'F') {
+                        const counter = document.getElementById('fps-counter');
+                        counter.style.display = counter.style.display === 'none' ? 'block' : 'none';
+                    }
+                });
+            }
+
+            monitor() {
+                const now = performance.now();
+                this.frameCount++;
+
+                if (now >= this.lastTime + 1000) {
+                    this.fps = Math.round((this.frameCount * 1000) / (now - this.lastTime));
+                    this.frameCount = 0;
+                    this.lastTime = now;
+
+                    const fpsCounter = document.getElementById('fps-counter');
+                    if (fpsCounter) {
+                        fpsCounter.textContent = `FPS: ${this.fps}`;
+                        fpsCounter.style.color = this.fps > 50 ? 'var(--neon-green)' : 
+                                                this.fps > 30 ? 'var(--neon-blue)' : 'var(--neon-pink)';
+                    }
+                }
+
+                requestAnimationFrame(() => this.monitor());
+            }
+        }
+
+        // Initialize performance monitoring
+        const performanceMonitor = new PerformanceMonitor();
+
+        // Easter Eggs and Hidden Features
+        let konamiCode = [];
+        const konamiSequence = [
+            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+            'KeyB', 'KeyA'
+        ];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+
+            if (JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+                activateEasterEgg();
+                konamiCode = [];
+            }
+        });
+
+        function activateEasterEgg() {
+            // Create rainbow explosion effect
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const explosion = document.createElement('div');
+                    explosion.style.position = 'fixed';
+                    explosion.style.width = '20px';
+                    explosion.style.height = '20px';
+                    explosion.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    explosion.style.borderRadius = '50%';
+                    explosion.style.left = Math.random() * window.innerWidth + 'px';
+                    explosion.style.top = Math.random() * window.innerHeight + 'px';
+                    explosion.style.pointerEvents = 'none';
+                    explosion.style.zIndex = '9999';
+                    explosion.style.animation = 'explode 2s ease-out forwards';
+                    
+                    document.body.appendChild(explosion);
+                    
+                    setTimeout(() => explosion.remove(), 2000);
+                }, i * 100);
+            }
+
+            // Play success sound (if audio context is available)
+            if (window.AudioContext || window.webkitAudioContext) {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                oscillator.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                oscillator.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + 0.5);
+            }
+
+            // Show celebration message
+            const message = document.createElement('div');
+            message.innerHTML = '🎉 KONAMI CODE ACTIVATED! 🎉<br>You found the secret!';
+            message.style.position = 'fixed';
+            message.style.top = '50%';
+            message.style.left = '50%';
+            message.style.transform = 'translate(-50%, -50%)';
+            message.style.background = 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))';
+            message.style.color = 'white';
+            message.style.padding = '30px 40px';
+            message.style.borderRadius = '20px';
+            message.style.fontSize = '24px';
+            message.style.fontWeight = 'bold';
+            message.style.textAlign = 'center';
+            message.style.zIndex = '10000';
+            message.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.5)';
+            message.style.animation = 'celebrationPulse 2s ease-in-out';
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => message.remove(), 3000);
+        }
+
+        // Add explosion animation
+        const explosionStyle = document.createElement('style');
+        explosionStyle.textContent = `
+            @keyframes explode {
+                0% {
+                    transform: scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(3) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes celebrationPulse {
+                0%, 100% { transform: translate(-50%, -50%) scale(1); }
+                50% { transform: translate(-50%, -50%) scale(1.1); }
+            }
+
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(explosionStyle);
+
+        // Accessibility Enhancements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add ARIA labels
+            document.querySelectorAll('.feature-card').forEach((card, index) => {
+                card.setAttribute('role', 'article');
+                card.setAttribute('aria-label', `Feature ${index + 1}`);
+            });
+
+            // Add skip to content link
+            const skipLink = document.createElement('a');
+            skipLink.href = '#main-content';
+            skipLink.textContent = 'Skip to main content';
+            skipLink.style.position = 'absolute';
+            skipLink.style.top = '-40px';
+            skipLink.style.left = '6px';
+            skipLink.style.background = 'var(--neon-blue)';
+            skipLink.style.color = 'white';
+            skipLink.style.padding = '8px';
+            skipLink.style.textDecoration = 'none';
+            skipLink.style.borderRadius = '4px';
+            skipLink.style.transition = 'top 0.3s';
+            
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.top = '6px';
+            });
+            
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.top = '-40px';
+            });
+            
+            document.body.insertBefore(skipLink, document.body.firstChild);
+
+            // Add main content landmark
+            document.querySelector('.container').id = 'main-content';
+            document.querySelector('.container').setAttribute('role', 'main');
+        });
+
+        // Mobile Touch Enhancements
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.feature-card, .btn').forEach(element => {
+                element.addEventListener('touchstart', () => {
+                    element.style.transform = 'scale(0.95)';
+                }, { passive: true });
+
+                element.addEventListener('touchend', () => {
+                    element.style.transform = 'scale(1)';
+                }, { passive: true });
+            });
+        }
+
+        // Reduced Motion Support
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        if (prefersReducedMotion.matches) {
+            // Disable animations for users who prefer reduced motion
+            const style = document.createElement('style');
+            style.textContent = `
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Console Art
+        console.log(`
+        ╔══════════════════════════════════════╗
+        ║     🌈 NEOPIXEL SEQUENCER 🌈         ║
+        ║                                      ║
+        ║  Created with ❤️ by Esmail Sarhadi   ║
+        ║                                      ║
+        ║  Press Ctrl+Shift+F for FPS counter  ║
+        ║  Try the Konami Code for a surprise! ║
+        ║                                      ║
+        ║  GitHub: github.com/Esmail-sarhadi   ║
+        ╚══════════════════════════════════════╝
+        `);
+
+        console.log('%c🚀 Welcome to the NeoPixel Sequencer! 🚀', 
+            'font-size: 20px; color: #667eea; font-weight: bold;');
+        
+        console.log('%cThis page features:', 
+            'font-size: 14px; color: #764ba2; font-weight: bold;');
+        
+        console.log('%c• Advanced CSS animations and transitions', 'color: #00d4ff;');
+        console.log('%c• 3D transforms and parallax effects', 'color: #ff0080;');
+        console.log('%c• Interactive particle system', 'color: #00ff88;');
+        console.log('%c• Custom cursor with trails', 'color: #8b5cf6;');
+        console.log('%c• Matrix rain animation', 'color: #f093fb;');
+        console.log('%c• Performance monitoring', 'color: #667eea;');
+        console.log('%c• Accessibility features', 'color: #764ba2;');
+        console.log('%c• Easter eggs and hidden features', 'color: #00d4ff;');
+
+        // Final initialization
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+            
+            // Fade in the entire page
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 1s ease-in-out';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+    </script>
+</body>
 </html>
+            
